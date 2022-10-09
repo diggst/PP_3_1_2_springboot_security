@@ -2,10 +2,16 @@ package com.example.firstsecurityapp.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -17,9 +23,11 @@ public class User {
     private Long id;
 
     @Column(name = "username", nullable = false)
+    @NotNull
     private String username;
 
     @Column(name = "password", nullable = false)
+    @NotNull
     private String password;
 
     @Column(name = "name")
@@ -34,14 +42,25 @@ public class User {
     @Column(name = "email")
     private String email;
 
+    @ManyToMany (fetch = FetchType.EAGER)
+    @JoinTable (
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private List<Role> roles;
+
     public User() {
     }
 
-    public User(String name, String lastName, Byte age, String email) {
+    public User(String username, String password, String name, String lastName, Byte age, String email, List<Role> roles) {
+        this.username = username;
+        this.password = password;
         this.name = name;
         this.lastName = lastName;
         this.age = age;
         this.email = email;
+        this.roles = roles;
     }
 
     public Long getId() {
@@ -98,6 +117,14 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
