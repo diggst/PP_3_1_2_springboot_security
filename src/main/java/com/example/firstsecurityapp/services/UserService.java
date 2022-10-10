@@ -1,5 +1,6 @@
 package com.example.firstsecurityapp.services;
 
+import com.example.firstsecurityapp.model.Role;
 import com.example.firstsecurityapp.model.User;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,4 +20,6 @@ public interface UserService {
     User getUser(long id);
 
     Optional<User> findByUsername(String username);
+
+    List<Role> listRoles();
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "roles")
-public class Role {
+public class Role implements GrantedAuthority {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,12 +21,22 @@ public class Role {
     private Long id;
 
     @Column(name = "role")
-    private String role;
+    private String roleName;
 
     @ManyToMany (mappedBy = "roles")
     private List<User> users;
 
     public Role() {
+    }
+
+    public Role(Long id, String roleName) {
+        this.id = id;
+        this.roleName = roleName;
+    }
+
+    @Override
+    public String getAuthority() {
+        return roleName;
     }
 
     public Long getId() {
@@ -37,12 +47,12 @@ public class Role {
         this.id = id;
     }
 
-    public String getRole() {
-        return role;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRoleName(String role) {
+        this.roleName = role;
     }
 
     public List<User> getUsers() {
@@ -51,5 +61,9 @@ public class Role {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public String toString() {
+        return roleName.substring(roleName.indexOf('_') + 1);
     }
 }

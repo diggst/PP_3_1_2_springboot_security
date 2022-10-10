@@ -1,5 +1,7 @@
 package com.example.firstsecurityapp.model;
 
+import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -61,6 +63,10 @@ public class User {
         this.age = age;
         this.email = email;
         this.roles = roles;
+    }
+
+    private void addRole(Role role){
+        roles.add(role);
     }
 
     public Long getId() {

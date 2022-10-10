@@ -3,23 +3,19 @@ package com.example.firstsecurityapp.controllers;
 import com.example.firstsecurityapp.security.UserDetailsImp;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
-public class HelloController {
-    @GetMapping("/hello")
-    public String sayHello() {
-        return "hello";
-    }
+import java.util.Collections;
 
-    @GetMapping("/getUserInfo")
-    public String showUserInfo() {
+@Controller
+public class UserController {
+    @GetMapping("/user")
+    public String index(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImp userDetails = (UserDetailsImp)authentication.getPrincipal();
-        System.out.println(userDetails.getUser());
-
-        return "hello";
+        model.addAttribute("users", Collections.singletonList(userDetails.getUser()));
+        return "/user";
     }
 }

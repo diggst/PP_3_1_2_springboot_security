@@ -35,7 +35,9 @@ public class AdminController {
     }
 
     @GetMapping("/new")
-    public String createForm(@ModelAttribute("user") User newUser) {
+    public String createForm(User newUser, Model model) {
+        model.addAttribute("user", newUser);
+        model.addAttribute("listRoles", userService.listRoles());
         return "admin/new";
     }
 
@@ -54,6 +56,7 @@ public class AdminController {
     @GetMapping("/edit/{id}")
     public String editForm(@PathVariable("id") long id, Model model) {
         model.addAttribute("user", userService.getUser(id));
+        model.addAttribute("listRoles", userService.listRoles());
         return "admin/edit";
     }
 
