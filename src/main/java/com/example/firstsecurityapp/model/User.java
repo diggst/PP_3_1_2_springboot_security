@@ -1,5 +1,7 @@
 package com.example.firstsecurityapp.model;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.Column;
@@ -44,7 +46,8 @@ public class User {
     @Column(name = "email")
     private String email;
 
-    @ManyToMany (fetch = FetchType.EAGER)
+    @ManyToMany
+    @Fetch(FetchMode.JOIN)
     @JoinTable (
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
